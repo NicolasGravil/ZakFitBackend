@@ -9,15 +9,25 @@ public func configure(_ app: Application) async throws {
     // uncomment to serve files from /Public folder
     // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
-    app.databases.use(DatabaseConfigurationFactory.mysql(
-        hostname: Environment.get("DATABASE_HOST") ?? "localhost",
-        port: Environment.get("DATABASE_PORT").flatMap(Int.init(_:)) ?? MySQLConfiguration.ianaPortNumber,
-        username: Environment.get("DATABASE_USERNAME") ?? "vapor_username",
-        password: Environment.get("DATABASE_PASSWORD") ?? "vapor_password",
-        database: Environment.get("DATABASE_NAME") ?? "vapor_database"
+    app.databases.use(.mysql(
+        hostname: "127.0.0.1",    // localhost marche aussi
+        port: 8889,                // ton port XAMPP
+        username: "root",
+        password: "",
+        database: "ZakFit"
     ), as: .mysql)
 
-    app.migrations.add(CreateTodo())
+
+    //app.migrations.add(CreateTodo())
+    
+    // Ajouter CORS
+       app.middleware.use(CORSMiddleware(configuration: corsConfiguration))
+
+       // Ajouter JWTMiddleware si nécessaire sur certaines routes
+       // app.middleware.use(JWTMiddleware()) 
+
+       // Migrations
+       app.migrations.add(CreateUser())
 
     app.views.use(.leaf)
 

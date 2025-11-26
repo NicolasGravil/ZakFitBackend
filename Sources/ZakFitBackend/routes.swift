@@ -11,4 +11,9 @@ func routes(_ app: Application) throws {
     }
 
     try app.register(collection: TodoController())
+    
+    let userController = UserController()
+    try app.register(collection: userController)
 }
+
+
