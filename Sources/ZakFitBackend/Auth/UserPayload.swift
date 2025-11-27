@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Foundation
 import Vapor
 import JWT
 
@@ -24,6 +23,5 @@ struct UserPayload: JWTPayload, Authenticatable {
         self.id = id
         self.expiration = Date().addingTimeInterval(3600 * 72) // 72 heures
     }
-
-
 }
+

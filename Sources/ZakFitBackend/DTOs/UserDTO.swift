@@ -5,9 +5,13 @@
 //  Created by Apprenant156 on 27/11/2025.
 //
 
+//
+//  UserDTO.swift
+//  ZakFitBackend
+//
 import Vapor
 
-// DTO pour afficher l'utilisateur (sans mot de passe)
+// DTO exposé au client (sans mot de passe)
 struct UserDTO: Content {
     var id: UUID?
     var name: String
@@ -21,7 +25,7 @@ struct UserDTO: Content {
     var gender: String?
 }
 
-// DTO pour créer un utilisateur
+// DTO pour création complète (POST /users/register)
 struct UserCreateDTO: Content {
     var name: String
     var lastName: String
@@ -29,13 +33,13 @@ struct UserCreateDTO: Content {
     var password: String
     var height: Int
     var weight: Int
-    var birthDate: String  // Format: yyyy-MM-dd
+    var birthDate: String  // format "yyyy-MM-dd"
     var goals: String?
     var diet: String?
     var gender: String?
 }
 
-// DTO pour mettre à jour partiellement
+// DTO pour mise à jour partielle (PATCH)
 struct PartialUserDTO: Content {
     var name: String?
     var lastName: String?
@@ -49,7 +53,7 @@ struct PartialUserDTO: Content {
     var gender: String?
 }
 
-// DTO pour le login
+// DTO pour login
 struct LoginRequest: Content {
     let email: String
     let password: String

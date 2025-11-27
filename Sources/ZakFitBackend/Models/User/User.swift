@@ -4,43 +4,48 @@
 //
 //  Created by Apprenant156 on 26/11/2025.
 //
+//
+//  User.swift
+//  ZakFitBackend
+//
 import Vapor
 import Fluent
 
 final class User: Model, Content, @unchecked Sendable {
+
     static let schema = "users"
 
     @ID(key: .id)
     var id: UUID?
 
-    @Field(key: "User_Name")
+    @Field(key: "name")
     var name: String
 
-    @Field(key: "User_LastName")
+    @Field(key: "lastName")
     var lastName: String
 
-    @Field(key: "User_Mail")
+    @Field(key: "email")
     var email: String
 
-    @Field(key: "User_Password")
+    @Field(key: "password")
     var password: String
 
-    @Field(key: "User_Height")
+    @Field(key: "height")
     var height: Int
 
-    @Field(key: "User_Weight")
+    @Field(key: "weight")
     var weight: Int
 
-    @Field(key: "User_BirthDate")
+    @Field(key: "birthDate")
     var birthDate: Date
 
-    @Field(key: "User_Goals")
+    @Field(key: "goals")
     var goals: String?
 
-    @Field(key: "User_Diet")
+    @Field(key: "diet")
     var diet: String?
 
-    @Field(key: "User_Gender")
+    @Field(key: "gender")
     var gender: String?
 
     init() {}
@@ -56,7 +61,7 @@ final class User: Model, Content, @unchecked Sendable {
          goals: String? = nil,
          diet: String? = nil,
          gender: String? = nil) {
-        self.id = id ?? UUID()
+        self.id = id
         self.name = name
         self.lastName = lastName
         self.email = email
@@ -69,6 +74,7 @@ final class User: Model, Content, @unchecked Sendable {
         self.gender = gender
     }
 
+    // --- méthode utilitaire pour retourner le DTO public (sans mot de passe) ---
     func toDTO() -> UserDTO {
         return UserDTO(
             id: self.id,
@@ -84,4 +90,3 @@ final class User: Model, Content, @unchecked Sendable {
         )
     }
 }
-
