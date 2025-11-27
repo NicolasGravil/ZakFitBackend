@@ -7,23 +7,17 @@
 
 import Vapor
 import JWT
-final class JWTMiddleware: Middleware {
-    func respond(to request: Request, chainingTo next: any Responder) -> EventLoopFuture<Response> {
-        
-        guard let token = request.headers["Authorization"].first?.split(separator: " ").last else {
-            return request.eventLoop.future(error: Abort(.unauthorized, reason: "Missing token."))
+
+struct JWTMiddleware: AsyncMiddleware {
+    func respond(to request: Request, chainingTo next: any AsyncResponder) async throws -> Response {
+        guard let token = request.headers.bearerAuthorization?.token else {
+            throw Abort(.unauthorized, reason: "Token manquant")
         }
-        let signer = JWTSigner.hs256(key: "OnePieceIsReal")
-        let payload: UserPayload
         
-        do {
-            payload = try signer.verify(String(token), as: UserPayload.self)
-        } catch {
-            return request.eventLoop.future(error: Abort(.unauthorized, reason: "Invalid token"))
-        }
+        let payload = try request.jwt.verify(token, as: UserPayload.self)
         request.auth.login(payload)
-        return next.respond(to: request)
         
+        return try await next.respond(to: request)
     }
-    
 }
+

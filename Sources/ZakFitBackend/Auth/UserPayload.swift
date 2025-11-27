@@ -6,19 +6,24 @@
 //
 
 import Foundation
+import Foundation
 import Vapor
 import JWT
 
 struct UserPayload: JWTPayload, Authenticatable {
     var id: UUID
     var expiration: Date
+    
     func verify(using signer: JWTSigner) throws {
         guard expiration > Date() else {
-            throw Abort(.unauthorized,reason: "Token expired")
+            throw Abort(.unauthorized, reason: "Token expiré")
         }
     }
-    init(id:UUID) {
+    
+    init(id: UUID) {
         self.id = id
-        self.expiration = Date().addingTimeInterval(3600 * 72)
+        self.expiration = Date().addingTimeInterval(3600 * 72) // 72 heures
     }
+
+
 }

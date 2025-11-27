@@ -4,12 +4,11 @@
 //
 //  Created by Apprenant156 on 26/11/2025.
 //
-
 import Vapor
 import Fluent
 
 final class User: Model, Content, @unchecked Sendable {
-    static let schema = "users" // nom de table en minuscule recommandé pour MySQL
+    static let schema = "users"
 
     @ID(key: .id)
     var id: UUID?
@@ -32,6 +31,9 @@ final class User: Model, Content, @unchecked Sendable {
     @Field(key: "User_Weight")
     var weight: Int
 
+    @Field(key: "User_BirthDate")
+    var birthDate: Date
+
     @Field(key: "User_Goals")
     var goals: String?
 
@@ -41,10 +43,8 @@ final class User: Model, Content, @unchecked Sendable {
     @Field(key: "User_Gender")
     var gender: String?
 
-    // Initialisateur vide requis par Fluent
     init() {}
 
-    // Initialisateur pratique pour créer un nouvel utilisateur
     init(id: UUID? = nil,
          name: String,
          lastName: String,
@@ -52,6 +52,7 @@ final class User: Model, Content, @unchecked Sendable {
          password: String,
          height: Int,
          weight: Int,
+         birthDate: Date,
          goals: String? = nil,
          diet: String? = nil,
          gender: String? = nil) {
@@ -62,12 +63,12 @@ final class User: Model, Content, @unchecked Sendable {
         self.password = password
         self.height = height
         self.weight = weight
+        self.birthDate = birthDate
         self.goals = goals
         self.diet = diet
         self.gender = gender
     }
 
-    // Méthode optionnelle pour convertir en DTO si tu veux ne pas exposer le mot de passe
     func toDTO() -> UserDTO {
         return UserDTO(
             id: self.id,
@@ -76,6 +77,7 @@ final class User: Model, Content, @unchecked Sendable {
             email: self.email,
             height: self.height,
             weight: self.weight,
+            birthDate: self.birthDate,
             goals: self.goals,
             diet: self.diet,
             gender: self.gender
@@ -83,15 +85,3 @@ final class User: Model, Content, @unchecked Sendable {
     }
 }
 
-// DTO pour l'API (sans mot de passe)
-struct UserDTO: Content {
-    var id: UUID?
-    var name: String
-    var lastName: String
-    var email: String
-    var height: Int
-    var weight: Int
-    var goals: String?
-    var diet: String?
-    var gender: String?
-}
