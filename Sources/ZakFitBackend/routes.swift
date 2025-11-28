@@ -20,31 +20,31 @@ func routes(_ app: Application) throws {
     try app.register(collection: exerciseTypeController)
 
 
-       //  Exercise
-       try app.register(collection: ExerciseController())
+    //  Exercise
+    try app.register(collection: ExerciseController())
 
     //  Food
     let foodController = FoodController()
     try app.register(collection: foodController)
 
 
-       //  MealType
-       try app.register(collection: MealTypeController())
+    //  MealType
+    try app.register(collection: MealTypeController())
 
-       //  Meal
-       try app.register(collection: MealController())
+    //  Meal
+    try app.register(collection: MealController())
 
-       //  MealFood
-       try app.register(collection: MealFoodController())
-    
+    //  MealFood
+    try app.register(collection: MealFoodController())
+
     //  Goals
-      try app.register(collection: GoalController())
+    try app.register(collection: GoalController())
 
-//      //  Notifications
-//      try app.register(collection: NotificationController())
-//
-//      //  Weight tracking
-//      try app.register(collection: WeightTrackingController())
+    //  Notifications
+    try app.register(collection: NotificationController())
+
+    //  Weight tracking
+    try app.register(collection: WeightTrackingController())
 
     
    

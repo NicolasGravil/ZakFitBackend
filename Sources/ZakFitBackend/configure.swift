@@ -38,9 +38,9 @@ public func configure(_ app: Application) async throws {
         app.migrations.add(CreateFood())
         app.migrations.add(CreateMealFood())
         app.migrations.add(CreateGoal())
-//    app.migrations.add(CreateNotification()) // implement similar
-//    app.migrations.add(CreateWeightTracking())
-//
+        app.migrations.add(CreateNotification())
+        app.migrations.add(CreateWeightTracking())
+
 //    try app.autoMigrate().wait() // or run migrate manually
 
 
