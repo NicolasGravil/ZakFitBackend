@@ -4,7 +4,6 @@
 //
 //  Created by Apprenant156 on 27/11/2025.
 //
-
 import Vapor
 import Fluent
 
@@ -25,7 +24,7 @@ struct ExerciseTypeController: RouteCollection {
 
     func getAll(req: Request) async throws -> [ExerciseTypeDTO] {
         let list = try await ExerciseType.query(on: req.db).all()
-        return list.map { ExerciseTypeDTO(id: $0.id, name: $0.name) }
+        return list.map { ExerciseTypeDTO(id: $0.id, type: $0.type) }
     }
 
     func getById(req: Request) async throws -> ExerciseTypeDTO {
@@ -34,16 +33,16 @@ struct ExerciseTypeController: RouteCollection {
               let type = try await ExerciseType.find(uuid, on: req.db)
         else { throw Abort(.notFound) }
 
-        return ExerciseTypeDTO(id: type.id, name: type.name)
+        return ExerciseTypeDTO(id: type.id, type: type.type)
     }
 
     func create(req: Request) async throws -> ExerciseTypeDTO {
         let dto = try req.content.decode(ExerciseTypeCreateDTO.self)
 
-        let type = ExerciseType(name: dto.name)
+        let type = ExerciseType(type: dto.type)
         try await type.save(on: req.db)
 
-        return ExerciseTypeDTO(id: type.id, name: type.name)
+        return ExerciseTypeDTO(id: type.id, type: type.type)
     }
 
     func update(req: Request) async throws -> ExerciseTypeDTO {
@@ -53,10 +52,10 @@ struct ExerciseTypeController: RouteCollection {
         else { throw Abort(.notFound) }
 
         let dto = try req.content.decode(ExerciseTypeCreateDTO.self)
-        type.name = dto.name
+        type.type = dto.type
 
         try await type.update(on: req.db)
-        return ExerciseTypeDTO(id: type.id, name: type.name)
+        return ExerciseTypeDTO(id: type.id, type: type.type)
     }
 
     func delete(req: Request) async throws -> HTTPStatus {

@@ -8,7 +8,7 @@ import Vapor
 import Fluent
 
 final class MealType: Model, Content, @unchecked Sendable {
-    static let schema = "meal_types"
+    static let schema = "mealType"
     
     @ID(key: .id) var id: UUID?
     @Field(key: "name") var name: String

@@ -6,23 +6,18 @@
 //
 
 import Fluent
-import Vapor
-
 
 struct CreateMeal: Migration {
-    func prepare(on database: any Database) -> EventLoopFuture<Void> {
-        database.schema(Meal.schema)
+    func prepare(on db: any Database) -> EventLoopFuture<Void> {
+        db.schema(Meal.schema)
             .id()
-            .field("date", .date, .required)
-            .field("user_id", .uuid, .required)
-            .field("meal_type_id", .uuid, .required)
-            .foreignKey("user_id", references: User.schema, "id", onDelete: .cascade)
-            .foreignKey("meal_type_id", references: MealType.schema, "id")
+            .field("user_id", .uuid, .required, .references("users", "id"))
+            .field("mealType_id", .uuid, .required, .references("mealType", "id"))
+            .field("date", .datetime, .required)
             .create()
     }
-    
-    func revert(on database: any Database) -> EventLoopFuture<Void> {
-        database.schema(Meal.schema).delete()
+
+    func revert(on db: any Database) -> EventLoopFuture<Void> {
+        db.schema(Meal.schema).delete()
     }
 }
-

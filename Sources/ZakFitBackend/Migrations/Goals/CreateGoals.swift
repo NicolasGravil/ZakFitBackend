@@ -10,18 +10,18 @@ import Fluent
 import Vapor
 
 struct CreateGoal: Migration {
-    func prepare(on database: any Database) -> EventLoopFuture<Void> {
-        database.schema(Goal.schema)
+    func prepare(on db: any Database) -> EventLoopFuture<Void> {
+        db.schema(Goal.schema)
             .id()
+            .field("user_id", .uuid, .required, .references("users", "id"))
             .field("type", .string, .required)
-            .field("target_weight", .int)
+            .field("targetWeight", .int)
             .field("deadline", .date)
-            .field("user_id", .uuid, .required)
-            .foreignKey("user_id", references: User.schema, "id", onDelete: .cascade)
             .create()
     }
-    
-    func revert(on database: any Database) -> EventLoopFuture<Void> {
-        database.schema(Goal.schema).delete()
+
+    func revert(on db: any Database) -> EventLoopFuture<Void> {
+        db.schema(Goal.schema).delete()
     }
 }
+

@@ -4,13 +4,12 @@
 //
 //  Created by Apprenant156 on 26/11/2025.
 //
-
 import Fluent
 import Vapor
 
-struct CreateFood: Migration {
-    func prepare(on database: any Database) -> EventLoopFuture<Void> {
-        database.schema(Food.schema)
+struct CreateFood: AsyncMigration {
+    func prepare(on database: any Database) async throws {
+        try await database.schema(Food.schema)
             .id()
             .field("name", .string, .required)
             .field("calories_per_100g", .int, .required)
@@ -23,8 +22,8 @@ struct CreateFood: Migration {
             .foreignKey("user_id", references: User.schema, "id", onDelete: .setNull)
             .create()
     }
-    func revert(on database: any Database) -> EventLoopFuture<Void> {
-        database.schema(Food.schema).delete()
+    
+    func revert(on database: any Database) async throws {
+        try await database.schema(Food.schema).delete()
     }
 }
-

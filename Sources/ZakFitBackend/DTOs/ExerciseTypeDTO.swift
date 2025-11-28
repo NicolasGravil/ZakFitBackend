@@ -9,9 +9,9 @@ import Vapor
 
 struct ExerciseTypeDTO: Content {
     let id: UUID?
-    let name: String
+    let type: String
 }
 
 struct ExerciseTypeCreateDTO: Content {
-    let name: String
+    let type: String
 }

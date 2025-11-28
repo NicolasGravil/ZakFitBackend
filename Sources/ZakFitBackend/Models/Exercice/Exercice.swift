@@ -8,25 +8,26 @@ import Fluent
 import Vapor
 
 final class Exercise: Model, Content, @unchecked Sendable {
-    static let schema = "exercises"
+    static let schema = "exercise"
     
     @ID(key: .id) var id: UUID?
+    @Parent(key: "user_id") var user: User
+    @Parent(key: "exerciseType_id") var type: ExerciseType
     @Field(key: "name") var name: String
-    @Field(key: "duration_min") var durationMin: Int
+    @Field(key: "duration") var duration: Int
     @Field(key: "calories") var calories: Int?
     @Field(key: "date") var date: Date
-    @Parent(key: "user_id") var user: User
-    @Parent(key: "exercise_type_id") var type: ExerciseType
-    
+
     init() {}
-    
-    init(id: UUID? = nil, name: String, durationMin: Int, date: Date, userID: UUID, typeID: UUID) {
+
+    init(id: UUID? = nil, userID: UUID, typeID: UUID, name: String, duration: Int, calories: Int?, date: Date) {
         self.id = id
-        self.name = name
-        self.durationMin = durationMin
-        self.date = date
         self.$user.id = userID
         self.$type.id = typeID
+        self.name = name
+        self.duration = duration
+        self.calories = calories
+        self.date = date
     }
 }
 

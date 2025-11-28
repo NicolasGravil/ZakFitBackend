@@ -9,19 +9,20 @@ import Vapor
 import Fluent
 
 final class Meal: Model, Content, @unchecked Sendable {
-    static let schema = "meals"
+    static let schema = "meal"
     
     @ID(key: .id) var id: UUID?
-    @Field(key: "date") var date: Date
-    @Parent(key: "user_id") var user: User
-    @Parent(key: "meal_type_id") var mealType: MealType
-    
-    init() {}
-    init(id: UUID? = nil, date: Date, userID: UUID, mealTypeID: UUID) {
-        self.id = id
-        self.date = date
-        self.$user.id = userID
-        self.$mealType.id = mealTypeID
-    }
+      @Parent(key: "user_id") var user: User
+      @Parent(key: "mealType_id") var mealType: MealType
+      @Field(key: "date") var date: Date
+
+      init() {}
+
+      init(id: UUID? = nil, userID: UUID, mealTypeID: UUID, date: Date) {
+          self.id = id
+          self.$user.id = userID
+          self.$mealType.id = mealTypeID
+          self.date = date
+      }
 }
 
