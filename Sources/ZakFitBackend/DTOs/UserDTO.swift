@@ -5,10 +5,7 @@
 //  Created by Apprenant156 on 27/11/2025.
 //
 
-//
-//  UserDTO.swift
-//  ZakFitBackend
-//
+
 import Vapor
 
 // DTO exposé au client (sans mot de passe)
@@ -19,7 +16,7 @@ struct UserDTO: Content {
     var email: String
     var height: Int
     var weight: Int
-    var birthDate: Date
+    var birthDate: String
     var goals: String?
     var diet: String?
     var gender: String?
@@ -48,6 +45,19 @@ struct PartialUserDTO: Content {
     var height: Int?
     var weight: Int?
     var birthDate: String?
+    var goals: String?
+    var diet: String?
+    var gender: String?
+}
+
+// DTO pour mise à jour du profil (PUT) - sans password obligatoire
+struct UserUpdateDTO: Content {
+    var name: String
+    var lastName: String
+    var email: String
+    var height: Int
+    var weight: Int
+    var birthDate: String
     var goals: String?
     var diet: String?
     var gender: String?

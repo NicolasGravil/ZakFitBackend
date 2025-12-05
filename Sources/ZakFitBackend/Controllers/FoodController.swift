@@ -10,7 +10,7 @@ import Fluent
 
 struct FoodController: RouteCollection {
     func boot(routes: any RoutesBuilder) throws {
-        let foods = routes.grouped("food")
+        let foods = routes.grouped("foods")
 
         // Public routes
         foods.get(use: getAll)

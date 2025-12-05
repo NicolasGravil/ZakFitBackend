@@ -4,10 +4,7 @@
 //
 //  Created by Apprenant156 on 26/11/2025.
 //
-//
-//  User.swift
-//  ZakFitBackend
-//
+
 import Vapor
 import Fluent
 
@@ -74,8 +71,12 @@ final class User: Model, Content, @unchecked Sendable {
         self.gender = gender
     }
 
-    // --- méthode utilitaire pour retourner le DTO public (sans mot de passe) ---
+    
     func toDTO() -> UserDTO {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        
         return UserDTO(
             id: self.id,
             name: self.name,
@@ -83,7 +84,7 @@ final class User: Model, Content, @unchecked Sendable {
             email: self.email,
             height: self.height,
             weight: self.weight,
-            birthDate: self.birthDate,
+            birthDate: formatter.string(from: self.birthDate),
             goals: self.goals,
             diet: self.diet,
             gender: self.gender

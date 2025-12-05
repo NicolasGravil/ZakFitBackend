@@ -27,6 +27,15 @@ public func configure(_ app: Application) async throws {
        // app.middleware.use(JWTMiddleware())
     app.jwt.signers.use(.hs256(key: "OnePieceIsReal"))
 
+    app.routes.defaultMaxBodySize = "10mb"
+
+    let encoder = JSONEncoder()
+    encoder.dateEncodingStrategy = .iso8601
+    ContentConfiguration.global.use(encoder: encoder, for: .json)
+
+    let decoder = JSONDecoder()
+    decoder.dateDecodingStrategy = .iso8601
+    ContentConfiguration.global.use(decoder: decoder, for: .json)
 
        // Migrations
        app.migrations.add(CreateUser())
@@ -48,4 +57,14 @@ public func configure(_ app: Application) async throws {
 
     // register routes
     try routes(app)
+    
+    Task {
+        try? await FoodSeeder.seed(on: app.db)
+    }
+    Task {
+        try await MealTypeSeeder.seed(app)
+    }
+
 }
+
+

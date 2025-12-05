@@ -17,3 +17,11 @@ struct FoodCreateDTO: Content {
     let isCustom: Bool
     let creatorID: UUID?
 }
+//struct FoodCreateDTO: Content {
+//    let userID: UUID?
+//    let name: String
+//    let calories: Int
+//    let proteins: Double
+//    let carbs: Double
+//    let fats: Double
+//}

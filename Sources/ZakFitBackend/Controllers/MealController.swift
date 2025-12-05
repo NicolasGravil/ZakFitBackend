@@ -14,11 +14,14 @@ struct MealController: RouteCollection {
 
         meals.get(use: getAll)
         meals.get(":mealID", use: getById)
+        
+        meals.get("full", use: getFullMeals) // correspond à GET /meals/full
 
         let protected = meals.grouped(JWTMiddleware())
         protected.post(use: create)
         protected.put(":mealID", use: update)
         protected.delete(":mealID", use: delete)
+        
     }
 
     func getAll(req: Request) async throws -> [MealDTO] {
@@ -65,4 +68,35 @@ struct MealController: RouteCollection {
         try await meal.delete(on: req.db)
         return .noContent
     }
+    
+    func getFullMeals(req: Request) async throws -> [MealFullDTO] {
+        // Récupérer tous les repas
+        let meals = try await Meal.query(on: req.db).all()
+        
+        // Récupérer tous les types de repas
+        let mealTypes = try await MealType.query(on: req.db).all()
+        
+        // Construire le tableau complet
+        var fullMeals: [MealFullDTO] = []
+        
+        for meal in meals {
+            guard let mealType = mealTypes.first(where: { $0.id == meal.$mealType.id }) else { continue }
+            
+            let mealDTO = MealFullDTO(
+                id: meal.id!,
+                userID: meal.$user.id,  // pas meal.userID
+                mealType: MealTypeDTO(id: mealType.id!, name: mealType.name),
+                date: meal.date,
+                foods: [] // tu peux remplir avec les MealFoodDTO si besoin
+            )
+            
+            fullMeals.append(mealDTO)
+        }
+        
+        return fullMeals
+    }
+    
+
+
+
 }

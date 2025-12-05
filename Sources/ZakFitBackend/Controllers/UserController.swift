@@ -115,7 +115,8 @@ struct UserController: RouteCollection {
             throw Abort(.notFound)
         }
         
-        let dto = try req.content.decode(UserCreateDTO.self)
+        // Utilise UserUpdateDTO au lieu de UserCreateDTO
+        let dto = try req.content.decode(UserUpdateDTO.self)
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         formatter.timeZone = TimeZone(secondsFromGMT: 0)
@@ -127,7 +128,7 @@ struct UserController: RouteCollection {
         user.name = dto.name
         user.lastName = dto.lastName
         user.email = dto.email
-        user.password = try Bcrypt.hash(dto.password)
+        // On ne touche PAS au password dans le PUT
         user.height = dto.height
         user.weight = dto.weight
         user.birthDate = birthDate

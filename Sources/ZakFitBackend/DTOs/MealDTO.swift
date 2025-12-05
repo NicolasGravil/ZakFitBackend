@@ -19,3 +19,12 @@ struct MealCreateDTO: Content {
     let mealTypeID: UUID
     let date: Date
 }
+
+struct MealFullDTO: Content {
+    let id: UUID
+    let userID: UUID
+    let mealType: MealTypeDTO
+    let date: Date
+    let foods: [MealFoodDTO]  
+}
+

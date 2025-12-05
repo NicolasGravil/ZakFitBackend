@@ -14,7 +14,7 @@ struct ExerciseDTO: Content {
     let name: String
     let duration: Int
     let calories: Int?
-    let date: Date
+    let date: String
 }
 
 struct ExerciseCreateDTO: Content {
@@ -23,5 +23,5 @@ struct ExerciseCreateDTO: Content {
     let name: String
     let duration: Int
     let calories: Int?
-    let date: Date
+    let date: String
 }
